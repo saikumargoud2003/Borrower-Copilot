@@ -1,13 +1,17 @@
 import axios from 'axios';
 
-const BASE_CANDIDATES = [
-  '/api',
-  import.meta.env.VITE_API_URL,
-  'http://localhost:5000/api',
-  'http://localhost:5001/api',
-  'http://localhost:5002/api',
-  'http://localhost:5003/api'
-].filter(Boolean);
+const isLocalDev = typeof window !== 'undefined' && ['localhost', '127.0.0.1'].includes(window.location.hostname);
+
+const BASE_CANDIDATES = isLocalDev
+  ? [
+    '/api',
+    import.meta.env.VITE_API_URL,
+    'http://localhost:5000/api',
+    'http://localhost:5001/api',
+    'http://localhost:5002/api',
+    'http://localhost:5003/api'
+  ].filter(Boolean)
+  : ['/api', import.meta.env.VITE_API_URL].filter(Boolean);
 
 async function requestWithFallback(method, path, data) {
   let lastError = null;
