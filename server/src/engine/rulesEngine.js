@@ -62,7 +62,7 @@ function evaluateProfile(profile) {
     verdict = 'Borrow Less';
   }
   // productive and FOIR <=40
-  if (['business_expansion','asset_purchase'].includes(p.loanPurpose) && ((existingEmis / recognizedIncome) <= 0.4)) {
+  if (['business_expansion', 'asset_purchase'].includes(p.loanPurpose) && ((existingEmis / recognizedIncome) <= 0.4)) {
     verdict = 'Borrow';
   }
 
@@ -83,12 +83,12 @@ function evaluateProfile(profile) {
   // APR: include processing fee
   const processingFeePct = 1.5; // default
   const exampleTenure = tenureMonths || 60;
-  const aprLow = aprFromEmiAndFees(emiFromPrincipal(targetAmount||safeCapacityAmount, nominalLow, exampleTenure), exampleTenure, targetAmount||safeCapacityAmount, processingFeePct);
-  const aprHigh = aprFromEmiAndFees(emiFromPrincipal(targetAmount||safeCapacityAmount, nominalHigh, exampleTenure), exampleTenure, targetAmount||safeCapacityAmount, processingFeePct);
+  const aprLow = aprFromEmiAndFees(emiFromPrincipal(targetAmount || safeCapacityAmount, nominalLow, exampleTenure), exampleTenure, targetAmount || safeCapacityAmount, processingFeePct);
+  const aprHigh = aprFromEmiAndFees(emiFromPrincipal(targetAmount || safeCapacityAmount, nominalHigh, exampleTenure), exampleTenure, targetAmount || safeCapacityAmount, processingFeePct);
 
   // Max Safe EMI & Tenure table (36,48,60)
-  const tenures = [36,48,60];
-  const tenureTable = tenures.map((t)=>{
+  const tenures = [36, 48, 60];
+  const tenureTable = tenures.map((t) => {
     const pv36 = principalFromEmi(safeEmiCeiling, 11.0, t);
     return { months: t, safeAmount: Math.round(pv36) };
   });
@@ -107,9 +107,9 @@ function evaluateProfile(profile) {
 
   // Negotiation card text
   const negotiation = {
-    fairRateText: `Fair rate for your profile is ${nominalLow.toFixed(2)}% - ${nominalHigh.toFixed(2)}%` + (cibil? ` because CIBIL ${cibil}` : ' (credit score unknown)') + `.`,
-    counterScript: `If lender quotes higher than ${nominalHigh.toFixed(1)}% say: 'My FOIR is under ${(existingEmis/recognizedIncome*100).toFixed(1)}% and I have no defaults; please match top NBFC offers.'`,
-    reroute: employmentType==='self_employed' && p.ownsUnencumberedProperty ? 'Consider LAP route: lower rates and higher ticket sizes.' : 'Avoid unsecured high-cost borrowing; consider secured options if available.'
+    fairRateText: `Fair rate for your profile is ${nominalLow.toFixed(2)}% - ${nominalHigh.toFixed(2)}%` + (cibil ? ` because CIBIL ${cibil}` : ' (credit score unknown)') + `.`,
+    counterScript: `If lender quotes higher than ${nominalHigh.toFixed(1)}% say: 'My FOIR is under ${(existingEmis / recognizedIncome * 100).toFixed(1)}% and I have no defaults; please match top NBFC offers.'`,
+    reroute: employmentType === 'self_employed' && p.ownsUnencumberedProperty ? 'Consider LAP route: lower rates and higher ticket sizes.' : 'Avoid unsecured high-cost borrowing; consider secured options if available.'
   };
 
   return {
